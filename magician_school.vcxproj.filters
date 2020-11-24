@@ -18,5 +18,8 @@
     <ClCompile Include="magician_school.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="animalGame.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
