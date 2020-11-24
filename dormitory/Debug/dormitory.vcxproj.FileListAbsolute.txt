@@ -1,0 +1,2 @@
+C:\Users\Kim Doom\source\repos\dormitory\Debug\dormitory.exe
+C:\Users\Kim Doom\source\repos\dormitory\Debug\dormitory.pdb
