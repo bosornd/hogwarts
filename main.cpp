@@ -24,7 +24,7 @@ int main() {
 	homeOb->setOnMouseCallback([&](ObjectPtr, int, int, MouseAction) -> bool {
 		MaraudersMap_main(playerDorm);
 
-		cout << "finish!" << endl;
+		//cout << "finish!" << endl;
 
 		return true;
 		});

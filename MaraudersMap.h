@@ -108,6 +108,7 @@ public:
 	MapObjectPtr foot1, foot2;
 	TimerPtr timer;
 	Direction direction;
+	bool showup = false;
 
 protected:
 	Trap(const Direction _d, const int _x, const int _y, ScenePtr scene) : direction(_d) {

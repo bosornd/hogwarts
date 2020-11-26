@@ -13,10 +13,20 @@ extern ScenePtr home;
 ScenePtr mapScene; 
 MapObjectPtr player;
 TrapPtr trap[trapMAX];
-//ObjectPtr target;
 int target_xMax = 0, target_xMin = 0, target_yMax = 0, target_yMin = 0;
 SoundPtr mapSound;
 TimerPtr mainTimer, checkTimer;
+
+void endMapGame(const string& m) {
+	showMessage(m);
+	mapSound->stop();
+	home->enter();
+	mainTimer->stop();
+	checkTimer->stop();
+	for (int i = 0; i < trapMAX; i++) {
+		trap[i]->timer->stop();
+	}
+}
 
 void MaraudersMap_main(Dorm dorm) {
 
@@ -27,11 +37,11 @@ void MaraudersMap_main(Dorm dorm) {
 	mapSound = Sound::create("music/map.mp3");
 	mapSound->play();
 
-	player = MapObject::create(17, 48, mapScene, "maze/player.png");
-	player->setScale(0.1f);
+	player = MapObject::create(15, 48, mapScene, "maze/player_basic.png");
+	player->setScale(0.03f);
 
 
-	// player
+// player
 	mapScene->setOnKeyboardCallback([&](ScenePtr scene, int key, bool pressed)->bool {
 
 		Direction d = Direction::STAY;
@@ -52,7 +62,7 @@ void MaraudersMap_main(Dorm dorm) {
 		});
 
 
-	// trap
+// trap
 	int timeArr[trapMAX] = { 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 4, 4 };
 	for (int i = 0; i < trapMAX; i++) {
 		int j = rand() % trapMAX;
@@ -111,6 +121,7 @@ void MaraudersMap_main(Dorm dorm) {
 
 			trap[i]->foot1->show();
 			trap[i]->foot2->show();
+			trap[i]->showup = true;
 
 			(trap[i]->direction == Direction::UP || trap[i]->direction == Direction::DOWN)
 				? trap[i]->foot2->changeY(trap[i]->foot1->Y() + trap[i]->setFootXY())
@@ -134,7 +145,7 @@ void MaraudersMap_main(Dorm dorm) {
 				});
 			timer2->start();
 
-			cout << i << "-" << speedArr[i] << endl;
+			//cout << i << "-" << speedArr[i] << endl;
 			t->set(0.6f * speedArr[i]);
 			t->start();
 
@@ -147,7 +158,7 @@ void MaraudersMap_main(Dorm dorm) {
 	}
 
 
-	// target
+// target
 	auto gryffindor = Object::create("maze/g_logo.png", mapScene, 1155, 380);
 	gryffindor->setScale(0.2f);
 	auto hufflepuff = Object::create("maze/h_logo.png", mapScene, 350, 580);
@@ -178,42 +189,57 @@ void MaraudersMap_main(Dorm dorm) {
 	}
 
 	
-	// timer
+// timer
 	mainTimer = Timer::create(60.0f);
 	showTimer(mainTimer);
 	mainTimer->setOnTimerCallback([](TimerPtr)->bool {
-		showMessage("time over");
-
+		endMapGame("time over");
 		return false;
 		});
 
 	mainTimer->start();
 
-	// check trap & target
+// check trap & target
 	checkTimer = Timer::create(0.1f);
 	checkTimer->setOnTimerCallback([&](TimerPtr t)->bool {
 
+		bool nearby = false;
+		bool next = false;
 		for (int i = 0; i < trapMAX; i++) {
+			
 			if ((player->X() == trap[i]->foot1->X() && player->Y() == trap[i]->foot1->Y())
 				|| (player->X() == trap[i]->foot2->X() && player->Y() == trap[i]->foot2->Y())) {
-				showMessage("fail");
-				mainTimer->stop();
-				checkTimer->stop();
-				hideTimer();
-				mapSound->stop();
-				//home->enter();
-				enterScene(home->ID());
+				endMapGame("fail");
 			}
-			if ((player->X() >= target_xMin && player->X() <= target_xMax
-				&& player->Y() >= target_yMin && player->Y() <= target_yMax)) {
-				showMessage("Game clear");
-				mapSound->stop();
-				enterScene(home->ID());
-				mainTimer->stop();
-				checkTimer->stop();
+			else if ((player->X() - trap[i]->foot1->X() > -3 && player->Y() - trap[i]->foot1->Y() > -3
+				&& player->X() - trap[i]->foot1->X() < 3 && player->Y() - trap[i]->foot1->Y() < 3)
+				|| (player->X() - trap[i]->foot2->X() > -3 && player->Y() - trap[i]->foot2->Y() > -3
+					&& player->X() - trap[i]->foot2->X() < 3 && player->Y() - trap[i]->foot2->Y() < 3)) {
+				//cout << "Someone's right next to me." << " / trap" << i << endl;
+				if(trap[i]->showup) next = true; 
 			}
+			else if ( (player->X() - trap[i]->foot1->X() > -6 && player->Y() - trap[i]->foot1->Y() > -6
+					&& player->X() - trap[i]->foot1->X() < 6 && player->Y() - trap[i]->foot1->Y() < 6 ) 
+				 || ( player->X() - trap[i]->foot2->X() > -6 && player->Y() - trap[i]->foot2->Y() > -6
+					&& player->X() - trap[i]->foot2->X() < 6 && player->Y() - trap[i]->foot2->Y() < 6 ) ) {
+				//cout << "There's someone nearby." << " / trap" << i << endl;
+				if (trap[i]->showup) nearby = true;
+			}
+			else {
+				//cout << "safe" << endl;
+			}
+			
 		}
 
+		if (next) player->setImage("maze/player_next.png");
+		else if (nearby) player->setImage("maze/player_near.png");
+		else player->setImage("maze/player_basic.png");
+
+		if ((player->X() >= target_xMin && player->X() <= target_xMax
+			&& player->Y() >= target_yMin && player->Y() <= target_yMax)) {
+			endMapGame("game clear");
+		}
+		
 		t->set(0.1f);
 		t->start();
 
@@ -221,6 +247,6 @@ void MaraudersMap_main(Dorm dorm) {
 		});
 	checkTimer->start();
 
-	enterScene(mapScene->ID());
+	mapScene->enter();
 
 }
