@@ -92,13 +92,15 @@ int animalGame() {
 
 	
 
-	auto timer = Timer::create(120.0f);
+	auto timer = Timer::create(180.0f);
 	timer->setOnTimerCallback([&](TimerPtr)->bool {
 		showMessage("카드 찾기 실패!!");
 		return true;
 		});
-
 	auto timerFlip = Timer::create(0.8f);
+
+	timer->start();
+	showTimer(timer);
 
 	
 	int Shuffle[18];
@@ -139,8 +141,6 @@ int animalGame() {
 					clickedObj = j;
 				}
 			}
-			cout << "ClickedIdj" << endl;
-			cout << clickedObj << endl;
 			
 			// 뒤집은 카드들 연산
 			resCheckCard = checkCard(card[clickedObj].getCardNum(), clickedObj);   // | -1: 뒤집기 성공 | -2: 게임 승리! | -3: 첫번째 카드 | -4: 직전에 누른 or 이미 뒤집어진 |  |  나머지 : PREV값			
