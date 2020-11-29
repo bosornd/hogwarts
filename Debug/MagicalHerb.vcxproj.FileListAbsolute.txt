@@ -1,0 +1,2 @@
+C:\Users\박성원\Desktop\MagicalHerb\Debug\MagicalHerb.exe
+C:\Users\박성원\Desktop\MagicalHerb\Debug\MagicalHerb.pdb
