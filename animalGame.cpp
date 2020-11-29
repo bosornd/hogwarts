@@ -11,7 +11,6 @@ SoundPtr S_card;
 SoundPtr S_success;
 ObjectPtr hint;
 ObjectPtr hintBtn;
-int point; // 게임 점수
 int resCheckCard;
 int clickedObj;
 
@@ -59,7 +58,6 @@ int checkCard(int cardNum, int clickedCardNum) {
 			return -3;
 		}
 		else if (handedCard == cardNum) {				// 같은 카드를 고른 경우
-			point++;									// 나중 점수 계산을 위해 넣어둠. (신비한동물 시험 결과 point)
 			handedCard = -1;
 			flipedCard[flipedNum] = prevClickedCard;
 			flipedCard[flipedNum + 1] = clickedCardNum;
@@ -81,10 +79,9 @@ int checkCard(int cardNum, int clickedCardNum) {
 
 
 //메인 함수
-int animalGame() {
-	point = 0;
+void animalGame() {
 	fill_n(flipedCard, 18, -1);
-	animalMain = Scene::create("", "Images/animalGame/animalScene.jpeg");
+	animalMain = Scene::create("", "images/animalGame/animalScene.jpeg");
 
 	// 소리
 	S_card = Sound::create("sounds/animalGame/Card.mp3");
@@ -123,7 +120,7 @@ int animalGame() {
 
 	//hint
 	hintBtn = Object::create("images/animalGame/hintBtn.png", animalMain, 1170, 590);
-	hint = Object::create("Images/animalGame/animal_hint.png", animalMain, 50, 30, false);
+	hint = Object::create("images/animalGame/animal_hint.png", animalMain, 50, 30, false);
 	hintBtn->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction action)->bool {
 		hint->show();
 		return true;
@@ -177,5 +174,4 @@ int animalGame() {
 	}
 	enterScene(animalMain->ID());
 
-	return point;
 }
