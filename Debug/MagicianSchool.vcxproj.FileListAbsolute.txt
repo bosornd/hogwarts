@@ -1,0 +1,2 @@
+C:\Users\손희오\Desktop\MagicianSchool\Debug\MagicianSchool.exe
+C:\Users\손희오\Desktop\MagicianSchool\Debug\MagicianSchool.pdb
