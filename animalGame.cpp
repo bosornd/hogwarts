@@ -7,7 +7,7 @@ using namespace bangtal;
 using namespace std;
 
 //extern ScenePtr mainScene;
-extern void checkStage();
+extern void checkStage(int n, bool pf);
 
 ScenePtr animalMain;
 SoundPtr S_card;
@@ -95,6 +95,7 @@ void animalGame() {
 	auto timer = Timer::create(180.0f);
 	timer->setOnTimerCallback([&](TimerPtr)->bool {
 		showMessage("카드 찾기 실패!!");
+		checkStage(3, false);
 		return true;
 		});
 	auto timerFlip = Timer::create(0.8f);
@@ -169,8 +170,8 @@ void animalGame() {
 				showMessage("신비한 마법동물 시험에 합격하셨습니다!");
 				S_success->play(false);
 				timer->stop();
-				checkStage();
-				//mainScene->enter();
+				checkStage(3, true);
+				
 			}
 
 			return true;

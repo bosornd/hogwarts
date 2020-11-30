@@ -1,6 +1,5 @@
 ﻿#include <bangtal>
 #include <iostream>
-//#include "main.h"
 
 using namespace bangtal;
 using namespace std;
@@ -16,7 +15,7 @@ extern void MaraudersMap_main();
 const int gameMax = 5;
 static int stage;
 
-ScenePtr mainScene, endScene;			// home 화면(게임 선택할 수 있는)
+ScenePtr mainScene, endScene;	// mainScene: home 화면(게임 선택할 수 있는), endScene: 성적 화면, 졸업화면
 int dorm;
 bool P_F[gameMax] = { 0, }; // 게임 P/F
 
@@ -24,10 +23,12 @@ void setHome(const int d) {
 
 	dorm = d;
 	mainScene->setImage("images/home" + to_string(dorm) + ".jpg");
+	endScene->setImage("images/home" + to_string(dorm) + ".jpg");
 	mainScene->enter();
 }
 
-void checkStage() {
+void checkStage(int gameNum, bool PF = false) {
+	P_F[gameNum] = PF;
 	if (stage == gameMax) endScene->enter();
 	else mainScene->enter();
 }
@@ -38,7 +39,7 @@ int main() {
 	setGameOption(GameOption::GAME_OPTION_MESSAGE_BOX_BUTTON, false);
 	setGameOption(GameOption::GAME_OPTION_INVENTORY_BUTTON, false);
 
-	stage = 0;
+	stage = 4;
 	string playerName;
 
 
@@ -108,95 +109,46 @@ int main() {
 			});
 
 	}
-	/*
-	herb->setOnMouseCallback([=, &stage](ObjectPtr, int, int, MouseAction) -> bool {
-		if (!gameComplete[0]) {
-			stage++;
-			auto tutorial = Scene::create("", "images/herb_tutorial.jpg");
-			auto button = Object::create("images/startbutton.png", tutorial); // 위치 설정 미완료
-			button->setOnMouseCallback([playerName](ObjectPtr, int, int, MouseAction) -> bool {
-				magicalHerb(playerName);
-				return true;
-				});
-			
-		}
-		else if (gameComplete[0]) {
-			showMessage("already done");
-		}
-		return true;
-		});
-
-	astronomy->setOnMouseCallback([=, &stage](ObjectPtr, int, int, MouseAction) -> bool {
-		if (!gameComplete[1]) {
-			stage++;
-			astronomyGame();
-		}
-		else if (gameComplete[1]) {
-			showMessage("already done");
-		}
-		return true;
-		});
-
-	magicialCreature->setOnMouseCallback([=, &stage](ObjectPtr, int, int, MouseAction) -> bool {
-		if (!gameComplete[2]) {
-			stage++;
-			animalGame();
-		}
-		else if (gameComplete[2]) {
-			showMessage("already done");
-		}
-		return true;
-		});
-
-	maraudersMap->setOnMouseCallback([=, &stage](ObjectPtr, int, int, MouseAction) -> bool {
-		if (!gameComplete[3]) {
-			stage++;
-			MaraudersMap_main(dorm); 
-		}
-		else if (gameComplete[3]) {
-			showMessage("already done");
-		}
-		return true;
-		});
-
-	quidditch->setOnMouseCallback([=, &stage](ObjectPtr, int, int, MouseAction) -> bool {
-		if (!gameComplete[4]) {
-			stage++;
-			Quidditch(playerName);
-		}
-		else if (gameComplete[4]) {
-			showMessage("already done");
-		}
-		return true;
-		});
-		*/
+	
 
 
-	endScene = Scene::create("", "images/endScene.jpg");
-	//mainScene->setOnEnterCallback([stage, endScene](ScenePtr)->bool {
-	//	if (stage == gameMax) endScene->enter();
-	//	return true;
-	//	});
-	// 모든 게임을 완료했을 시 성적장면으로 이동
+	endScene = Scene::create("", "images/home0.jpg");
+	endScene->setOnEnterCallback([](ScenePtr)->bool {
+		auto gradePaper = Object::create("images/paper.png", endScene, 400, 0);
+		gradePaper->setScale(0.36f);
 
+		static int PFcount = 0;
+		ObjectPtr grade[gameMax]; // 게임별 성적을 보여주기 위한 Object
+		for (int i = 0; i < gameMax; i++) {
+			string s = (P_F[i]) ? "p" : "f";
+			if (P_F[i]) PFcount++;
+			grade[i] = Object::create("images/" + s + ".jpg", endScene, 800, 390 - i*30); // 위치 설정 미완료.
+			grade[i]->setScale(0.8f);
+			if (i >= 3) grade[i]->locate(endScene, 800, 380 - i * 30);
+			cout << endl << P_F[i];
+		}
+		
 
-	ObjectPtr grade[gameMax]; // 게임별 성적을 보여주기 위한 Object
-	for (int i = 0; i < gameMax; i++) {
-		string s = (P_F[i]) ? "pass" : "fail";
-		grade[i] = Object::create("images/" + s + ".png", endScene); // 위치 설정 미완료.
-
-		auto timer = Timer::create(60.0f);
-		timer->setOnTimerCallback([](TimerPtr)->bool {
-			auto graduation = Object::create("images/graduation.jpg", endScene);
-			graduation->setOnMouseCallback([](ObjectPtr, int, int, MouseAction)->bool {
+		auto timer = Timer::create(10.0f);
+		timer->setOnTimerCallback([=](TimerPtr)->bool {
+			string s = (PFcount >= 3) ? "graduation" : "fail";
+			gradePaper->hide();
+			endScene->setImage("images/" + s + ".jpg");
+			endScene->setOnKeyboardCallback([](ScenePtr, int, bool) -> bool {
 				endGame();
 				return true;
 				});
 			return true;
 			});
 		timer->start();
-		// 60초 동안 성적 보여주고 자동으로 졸업 장면으로 넘어감. 졸업 장면 클릭 시 게임 종료
-	}
+		// 10초 동안 성적 보여주고 자동으로 졸업 장면으로 넘어감. 졸업 장면에서 키보드 클릭 시 게임 종료
+
+		return true;
+		});
+	// 모든 게임을 완료했을 시 성적장면으로 이동
+
+
+	
 	
 	
 		

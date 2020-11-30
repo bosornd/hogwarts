@@ -5,8 +5,7 @@
 using namespace bangtal;
 using namespace std;
 
-//extern ScenePtr mainScene;
-extern void checkStage();
+extern void checkStage(int n, bool pf);
 
 ScenePtr magicpotion, bg2;
 SoundPtr BGM, adding, end1, end2;
@@ -174,15 +173,13 @@ int magicalHerb(const string ch)
 
     pass->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
         BGM->stop();
-        //mainScene->enter();
-        checkStage();
+        checkStage(0, true);
         return 0;
         });
 
     fail->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
         BGM->stop();
-        //mainScene->enter();
-        checkStage();
+        checkStage(0, false);
         return 0;
         });
 

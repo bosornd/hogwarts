@@ -5,7 +5,7 @@ using namespace bangtal;
 using namespace std;
 
 //extern ScenePtr mainScene;
-extern void checkStage();
+extern void checkStage(int n, bool pf);
 //extern int dorm;
 
 // 화면의 끝 좌표
@@ -79,10 +79,10 @@ int Quidditch(const string ch)
         invincible_timer->stop();
         crush_timer->stop();
         showMessage(" Final Score : " + to_string(score));
-        if (score > win_point) result = 1; else result = 0;
+        if (score > win_point) result = 1;
+        else result = 0;
         cout << "Game End! / result : " << result << endl;
-        //mainScene->enter();
-        checkStage();
+        checkStage(4, result);
         return true;
         });
     crush_timer = Timer::create(0.5f);

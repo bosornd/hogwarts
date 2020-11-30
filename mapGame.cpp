@@ -8,8 +8,7 @@
 using namespace bangtal;
 using namespace std;
 
-//extern ScenePtr mainScene;
-extern void checkStage();
+extern void checkStage(int n, bool pf);
 extern int dorm;
 
 ScenePtr mapScene;
@@ -42,7 +41,7 @@ void init() {
 }
 
 
-void endMapGame(const string& m) {
+void endMapGame(const string& m, bool pf) {
 	showMessage(m);
 	mapSound->stop();
 	mainTimer->stop();
@@ -50,8 +49,7 @@ void endMapGame(const string& m) {
 	for (int i = 0; i < trapMAX; i++) {
 		trap[i]->timer->stop();
 	}
-	//mainScene->enter();
-	checkStage();
+	checkStage(3, pf);
 }
 
 void MaraudersMap_main() {
@@ -209,7 +207,7 @@ void MaraudersMap_main() {
 	mainTimer = Timer::create(60.0f);
 	showTimer(mainTimer);
 	mainTimer->setOnTimerCallback([](TimerPtr)->bool {
-		endMapGame("time over");
+		endMapGame("time over", false);
 		return false;
 		});
 
@@ -227,7 +225,7 @@ void MaraudersMap_main() {
 
 			if ((player->X() == trap[i]->foot1->X() && player->Y() == trap[i]->foot1->Y())
 				|| (player->X() == trap[i]->foot2->X() && player->Y() == trap[i]->foot2->Y())) {
-				endMapGame("fail");
+				endMapGame("fail", false);
 				end = true;
 			}
 			else if ((player->X() - trap[i]->foot1->X() > -3 && player->Y() - trap[i]->foot1->Y() > -3
@@ -256,7 +254,7 @@ void MaraudersMap_main() {
 
 		if ((player->X() >= target_xMin && player->X() <= target_xMax
 			&& player->Y() >= target_yMin && player->Y() <= target_yMax)) {
-			endMapGame("game clear");
+			endMapGame("game clear", true);
 			end = true;
 		}
 

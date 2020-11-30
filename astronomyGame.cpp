@@ -17,7 +17,7 @@
 
 
 //extern ScenePtr mainScene;
-extern void checkStage();
+extern void checkStage(int n, bool pf);
 
 ScenePtr astronomyOne;
 
@@ -111,9 +111,8 @@ void astronomyGame() {
 
         showMessage("염소자리 찾기 실패!!");
 
-        checkStage();
-        //enterScene(mainScene->ID());
-
+        checkStage(1, false);
+        
         return true;
 
         });
@@ -282,8 +281,7 @@ void astronomyGame() {
 
                 timer3->stop();
 
-                checkStage();
-                //enterScene(mainScene->ID());
+                checkStage(1, true);
 
             }
 
