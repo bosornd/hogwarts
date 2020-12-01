@@ -39,7 +39,7 @@ int main() {
 	setGameOption(GameOption::GAME_OPTION_MESSAGE_BOX_BUTTON, false);
 	setGameOption(GameOption::GAME_OPTION_INVENTORY_BUTTON, false);
 
-	stage = 4;
+	stage = 0;
 	string playerName;
 
 
@@ -132,6 +132,9 @@ int main() {
 		auto timer = Timer::create(10.0f);
 		timer->setOnTimerCallback([=](TimerPtr)->bool {
 			string s = (PFcount >= 3) ? "graduation" : "fail";
+			for (int i = 0; i < gameMax; i++) {
+				grade[i]->hide();
+			}
 			gradePaper->hide();
 			endScene->setImage("images/" + s + ".jpg");
 			endScene->setOnKeyboardCallback([](ScenePtr, int, bool) -> bool {
