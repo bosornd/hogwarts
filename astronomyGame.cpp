@@ -8,7 +8,6 @@ using namespace bangtal;
 using namespace std;
 
 extern ScenePtr mainScene;
-int astronomyPoint = 0;
 ScenePtr astronomyOne;
 ScenePtr astronomyTwo;
 ScenePtr astronomyThree;
@@ -41,25 +40,25 @@ void astronomyGame() {
 	astronomyThree = Scene::create("", "images/astronomyGame/astronomyScene.png");
 
 	Success = Sound::create("sounds/astronomyGame/Success.mp3");
-
 	auto timer1 = Timer::create(30.0f);
 	auto timer2 = Timer::create(30.0f);
-	auto timer3 = Timer::create(30.0f);
+	auto timer3 = Timer::create(40.0f);
 	timer1->setOnTimerCallback([&](TimerPtr)->bool {
-		showMessage("양자리 찾기 실패!  " + to_string(astronomyPoint) + "점 입니다");
+		showMessage("양자리 찾기 실패!" );
 		enterScene(astronomyTwo->ID());
 		return true;
 		});
 	timer2->setOnTimerCallback([&](TimerPtr)->bool {
-		showMessage("게자리 찾기 실패!!" + to_string(astronomyPoint) + "점 입니다");
+		showMessage("게자리 찾기 실패!!" );
 		enterScene(astronomyThree->ID());
 		return true;
 		});
 	timer3->setOnTimerCallback([&](TimerPtr)->bool {
-		showMessage("염소자리 찾기 실패!!"+ to_string(astronomyPoint) + "점 입니다");
+		showMessage("염소자리 찾기 실패!!");
 		enterScene(mainScene->ID());
 		return true;
 		});
+	showTimer(timer1);
 
 
 	AriesSample = Object::create("images/astronomyGame/aries_sample.png", astronomyOne, 965,430);
@@ -68,7 +67,7 @@ void astronomyGame() {
 	CancerBoard = Object::create("images/astronomyGame/cancer.png", astronomyTwo, 300, 50);
 	CapricornusSample = Object::create("images/astronomyGame/capricornus_sample.png", astronomyThree, 965, 430);
 	CapricornusBoard = Object::create("images/astronomyGame/capricornus.png", astronomyThree, 300, 50);
-
+	showMessage("힌트를 참고하여 별자리를 완성해보세요!");
 	//Aries 별, 선 생성
 	for (int i = 0; i < sizeof(ariesLocation) / sizeof(ariesLocation[0]); i++) {	
 		if (i < 4) {
@@ -78,21 +77,23 @@ void astronomyGame() {
 		string img = "images/astronomyGame/ariesS" + to_string(i + 1) + ".png";
 		Aries[i] = Star::create(ariesLocation[i][0], ariesLocation[i][1], i, astronomyOne, img);
 		Aries[i]->setOnMouseCallback([=](ObjectPtr object, int x, int y, MouseAction action)->bool {
+			timer1->start();
+
 			Aries[i]->clickStar(ariesAdd, ariesLines, 4);
 			int size = Ans.size();
 			for (int j = 0; j < size; j++) {
 				AriesLines[Ans[j]]->show();
 			}
 			if (Ans.size() == 4) {
-				showMessage("양자리 맞추기 성공!  30점 추가입니다");
-				astronomyPoint + 40;
+				showMessage("양자리 맞추기 성공!");
 				Ans.clear();
 				Success->play(false);
 				enterScene(astronomyTwo->ID());
+				timer2->start();
+				showTimer(timer2);
 			}
 			return true;
 			});
-		
 	}
 	//Cancer 별, 선 생성
 	for (int i = 0; i < sizeof(cancerLocation) / sizeof(cancerLocation[0]); i++) {
@@ -109,10 +110,11 @@ void astronomyGame() {
 				CancerLines[Ans[j]]->show();
 			}
 			if (Ans.size() == 4) {
-				showMessage("게자리 맞추기 성공!  30점 추가입니다");
-				astronomyPoint + 30;
+				showMessage("게자리 맞추기 성공!");
 				Success->play(false);
 				enterScene(astronomyThree->ID());
+				timer3->start();
+				showTimer(timer3);
 			}
 			return true;
 			});
@@ -132,9 +134,9 @@ void astronomyGame() {
 				CapricornusLines[Ans8[j]]->show();
 			}
 			if (Ans8.size() == 8) {
-				showMessage("염소자리 맞추기 성공!  40점 추가입니다");
-				astronomyPoint + 40;
+				showMessage("염소자리 맞추기 성공!");
 				Success->play(false);
+				timer3->stop();
 				enterScene(mainScene->ID());
 			}
 			return true;

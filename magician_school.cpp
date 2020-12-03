@@ -25,7 +25,6 @@ int main() {
 	auto start = Object::create("images/start.png", mainScene, 500, 250);
 	start->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction action)->bool {
 		astronomyGame();
-		showMessage("카드를 뒤집어 신비한 동물 이름을 맞추세요!");
 		return true;
 		});
 	

@@ -64,7 +64,6 @@ int Star::getStarNum() {
 	return this->starNum;
 }
 void Star::checkLines(int x, int y, int ans[][2], int _n) {
-	cout << *ans << endl;
 	for (int i = 0; i < _n; i++) {
 		if (x == ans[i][0] && y == ans[i][1] || x == ans[i][1] && y == ans[i][0]) {
 			_n == 8? Ans8.push_back(i) : Ans.push_back(i);
