@@ -27,11 +27,16 @@ SoundPtr S_card;
 SoundPtr S_success;
 
 SoundPtr animal_bgm;
+<<<<<<< HEAD
 
 SoundPtr S_right;
 
 SoundPtr S_wrong;
 
+=======
+SoundPtr S_right;
+SoundPtr S_wrong;
+>>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
 ObjectPtr hint;
 
 ObjectPtr hintBtn;
@@ -187,6 +192,7 @@ void animalGame() {
 	S_card = Sound::create("sounds/animalGame/Card.mp3");
 
 	S_success = Sound::create("sounds/animalGame/Success.mp3");
+<<<<<<< HEAD
 
 	S_right = Sound::create("sounds/animalGame/Right.mp3");
 
@@ -194,6 +200,11 @@ void animalGame() {
 
 	animal_bgm = Sound::create("sounds/animalGame/Background.mp3");
 
+=======
+	S_right = Sound::create("sounds/animalGame/Right.mp3");
+	S_wrong = Sound::create("sounds/animalGame/Wrong.mp3");
+	animal_bgm = Sound::create("sounds/animalGame/Background.mp3");
+>>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
 	animal_bgm->play(true);
 
 
@@ -327,9 +338,13 @@ void animalGame() {
 
 
 			if (!(resCheckCard == -4)) {		// 뒤집어진 카드를 고르거나, 전에 고른 카드를 골랐을 경우가 아니면 -> 소리 발생, 카드 뒤집기
+<<<<<<< HEAD
 
 				S_card->play();
 
+=======
+				S_card->play();
+>>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
 				// 카드 뒤집기 - num이 9보다 크면 카드이름 작으면 카드그림
 
 				string openCardString = clickedObj < 9 ? "images/animalGame/animal" + to_string(card[clickedObj].getCardNum() + 1) + ".png" : "images/animalGame/animal" + to_string(card[clickedObj].getCardNum() + 1) + "_t.png";
@@ -343,9 +358,13 @@ void animalGame() {
 			if (resCheckCard > -1) {										// prev값이 돌아왔을떄
 
 				showMessage("둘이 다른 그림입니다.");
+<<<<<<< HEAD
 
 				S_wrong->play();
 
+=======
+				S_wrong->play();
+>>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
 				timerFlip[i]->start();
 
 				timerFlip[resCheckCard]->start();
@@ -353,9 +372,13 @@ void animalGame() {
 			}
 
 			else if (resCheckCard == -1) {
+<<<<<<< HEAD
 
 				S_right->play();
 
+=======
+				S_right->play();
+>>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
 				showMessage("맞추셨습니다!");
 
 			}
@@ -363,9 +386,13 @@ void animalGame() {
 			else if (resCheckCard == -2) {
 
 				showMessage("신비한 마법동물 시험에 합격하셨습니다!");
+<<<<<<< HEAD
 
 				S_success->play();
 
+=======
+				S_success->play();
+>>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
 				timer->stop();
 
 				checkStage(2, true);

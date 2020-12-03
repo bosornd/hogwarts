@@ -24,7 +24,7 @@ StarPtr   Capricornus[9];
 
 ObjectPtr AriesLines[4];
 ObjectPtr CancerLines[4];
-ObjectPtr   CapricornusLines[8];
+ObjectPtr CapricornusLines[8];
 
 int astronomyPoint = 0;
 
@@ -34,7 +34,12 @@ SoundPtr astronomy_bgm;
 //메인 함수
 void astronomyGame() {
     astronomy_bgm = Sound::create("sounds/astronomyGame/천문학.mp3");
+<<<<<<< HEAD
     astronomy_bgm->play(true);
+=======
+    astronomy_bgm->play();
+
+>>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
     astronomyOne = Scene::create("", "images/astronomyGame/astronomyScene.png");
     astronomyTwo = Scene::create("", "images/astronomyGame/astronomyScene.png");
     astronomyThree = Scene::create("", "images/astronomyGame/astronomyScene.png");
