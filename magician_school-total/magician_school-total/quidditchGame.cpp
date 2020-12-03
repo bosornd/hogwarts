@@ -45,6 +45,7 @@ string my_ch;
 int score = 0;
 int life = 5;
 int win_point = 15;
+ObjectPtr life_object[5];
 
 ScenePtr main_scene, end_scene;
 SoundPtr quid_sound;
@@ -93,6 +94,12 @@ int Quidditch(const string ch)
 
     // 조작할 캐릭터
     my = Object::create("images/quidditch/" + ch + "_right.png", main_scene, my_x, my_y);
+
+    // 생명
+    for (int i = 0; i < 5; i++) {
+        life_object[i] = Object::create("images/quidditch/life.png", main_scene, 1100 - 35 * i, 670);
+        life_object[i]->setScale(0.2f);
+    }
 
     // 상대, 공, 생성
     ball = Object::create("images/quidditch/ball0.png", main_scene, ball_x, ball_y);
@@ -155,6 +162,7 @@ int Quidditch(const string ch)
                 (my_y - 70 < enemy_y[i]) && (my_y + 70 > enemy_y[i])) {
                 invincible = true;
                 life--;
+                life_object[life]->hide();
                 cout << "crush! / life : " << life << endl;
                 main_scene->setLight(0.3f);
                 crush_timer->start();

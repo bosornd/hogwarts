@@ -8,14 +8,14 @@ using namespace std;
 extern void checkStage(int n, bool pf);
 
 ScenePtr magicpotion, bg2;
-SoundPtr BGM, adding, end1, end2;
+SoundPtr BGM, adding[8], end1, end2;
 ObjectPtr herbs[8], question_herb[8], preques, bowl, pass, fail, result, Student;
 int wrong_num = 0, num = 0, total = 0, p = 0, f = 0;
 int herbs_count[8] = { 0,0,0,0,0,0,0,0 };
 int answer_herb[8][8] = { {0,1,0,0,0,1,2,2}, {0,0,1,2,1,1,0,0}, {0,3,0,0,0,0,3,0}, {2,0,1,0,1,0,0,1}, {0,0,0,1,3,1,1,0}, {1,1,1,1,1,1,1,2}, {0,0,1,1,0,3,0,0}, {2,2,1,0,0,0,0,1} };
 int herb_x = 90, herb_y = 550;
 
-
+int sound_num = 0;
 
 int magicalHerb(const string ch)
 {
@@ -23,9 +23,12 @@ int magicalHerb(const string ch)
     BGM->play();
     magicpotion = Scene::create("MagicalHerb", "images/herb/magicpotion.png");
     bg2 = Scene::create("MagicalHerb", "images/herb/bg2.png");
-    adding = Sound::create("sounds/herb/plus.mp3");
     end1 = Sound::create("sounds/herb/end1.mp3");
     end2 = Sound::create("sounds/herb/end2.mp3");
+    for (int i = 0; i < 5; i++) {
+        adding[i] = Sound::create("sounds/herb/plus"+to_string(i)+".mp3");
+    }
+    
 
     auto Student = Object::create("images/" + ch + ".png", magicpotion, 840, 70);
     Student->setScale(2.0f);
@@ -38,42 +41,50 @@ int magicalHerb(const string ch)
 
     herbs[0]->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
         herbs_count[0] += 1;
-        adding->play();
+        adding[sound_num]->play();
+        sound_num = (sound_num + 1) % 5;
         return true;
         });
     herbs[1]->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
         herbs_count[1] += 1;
-        adding->play();
+        adding[sound_num]->play();
+        sound_num = (sound_num + 1) % 5;
         return true;
         });
     herbs[2]->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
         herbs_count[2] += 1;
-        adding->play();
+        adding[sound_num]->play();
+        sound_num = (sound_num + 1) % 5;
         return true;
         });
     herbs[3]->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
         herbs_count[3] += 1;
-        adding->play();
+        adding[sound_num]->play();
+        sound_num = (sound_num + 1) % 5;
         return true;
         });
     herbs[4]->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
         herbs_count[5] += 1;
-        adding->play();
+        adding[sound_num]->play();
+        sound_num = (sound_num + 1) % 5;
         return true;
         });
     herbs[5]->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
         herbs_count[5] += 1;
-        adding->play();
+        adding[sound_num]->play();
+        sound_num = (sound_num + 1) % 5;
         return true;
         });
     herbs[6]->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
         herbs_count[6] += 1;
-        adding->play();
+        adding[sound_num]->play();
+        sound_num = (sound_num + 1) % 5;
         return true;
         });
     herbs[7]->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
         herbs_count[7] += 1;
-        adding->play();
+        adding[sound_num]->play();
+        sound_num = (sound_num + 1) % 5;
         return true;
         });
 

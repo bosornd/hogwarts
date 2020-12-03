@@ -81,6 +81,7 @@ int checkCard(int cardNum, int clickedCardNum) {
 	}
 };
 
+TimerPtr timerFlip[18];
 
 //메인 함수
 void animalGame() {
@@ -101,8 +102,7 @@ void animalGame() {
 		checkStage(3, false);
 		return true;
 		});
-	auto timerFlip = Timer::create(0.8f);
-
+	
 	timer->start();
 	showTimer(timer);
 
@@ -138,6 +138,15 @@ void animalGame() {
 		});
 
 	for (int i = 0; i < 18; i++) {
+		timerFlip[i] = Timer::create(0.8f);
+		timerFlip[i]->setOnTimerCallback([=](TimerPtr t)->bool {       //뒤집기 위한 시간, 두 사진을 다 flip 하면 오류 발생.
+			card[i].getCard()->setImage("images/animalGame/animal_back.png");
+
+			t->set(0.8f);
+			return true;
+			});
+
+
 		card[i].getCard()->setOnMouseCallback([=](ObjectPtr object, int x, int y, MouseAction)->bool {
 			// clickedObj = 클릭 된 카드의 숫자 
 			for (int j = 0; j < 18; j++) {
@@ -147,7 +156,7 @@ void animalGame() {
 			}
 
 			// 뒤집은 카드들 연산
-			resCheckCard = checkCard(card[clickedObj].getCardNum(), clickedObj);   // | -1: 뒤집기 성공 | -2: 게임 승리! | -3: 첫번째 카드 | -4: 직전에 누른 or 이미 뒤집어진 |  |  나머지 : PREV값			
+			int resCheckCard = checkCard(card[clickedObj].getCardNum(), clickedObj);   // | -1: 뒤집기 성공 | -2: 게임 승리! | -3: 첫번째 카드 | -4: 직전에 누른 or 이미 뒤집어진 |  |  나머지 : PREV값			
 
 			if (!(resCheckCard == -4)) {		// 뒤집어진 카드를 고르거나, 전에 고른 카드를 골랐을 경우가 아니면 -> 소리 발생, 카드 뒤집기
 				S_card->play(false);
@@ -158,13 +167,9 @@ void animalGame() {
 
 			if (resCheckCard > -1) {										// prev값이 돌아왔을떄
 				showMessage("둘이 다른 그림입니다.");
-				timerFlip->setOnTimerCallback([&](TimerPtr t)->bool {       //뒤집기 위한 시간, 두 사진을 다 flip 하면 오류 발생.
-					card[clickedObj].getCard()->setImage("images/animalGame/animal_back.png");
-					t->set(0.8f);
-					return true;
-					});
-				timerFlip->start();
-				card[resCheckCard].getCard()->setImage("images/animalGame/animal_back.png");
+				
+				timerFlip[i]->start();
+				timerFlip[resCheckCard]->start();
 			}
 			else if (resCheckCard == -1) {
 				showMessage("맞추셨습니다!");
@@ -174,6 +179,7 @@ void animalGame() {
 				S_success->play(false);
 				timer->stop();
 				checkStage(3, true);
+				hideTimer();
 				animal_bgm->stop();
 				
 			}
