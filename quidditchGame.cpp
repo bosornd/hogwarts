@@ -98,7 +98,7 @@ int Quidditch(const string ch)
 
     // »ý¸í
     for (int i = 0; i < 5; i++) {
-        life_object[i] = Object::create("images/quidditch/life.png", main_scene, 1100 - 35 * i, 670);
+        life_object[i] = Object::create("images/quidditch/life.png", main_scene, 1200 - 35 * i, 670);
         life_object[i]->setScale(0.2f);
     }
 

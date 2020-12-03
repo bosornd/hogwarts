@@ -11,10 +11,17 @@ extern void checkStage(int n, bool pf);
 extern int dorm;
 
 ScenePtr mapScene;
+
 MapObjectPtr player;
+
 TrapPtr trap[trapMAX];
+
 ObjectPtr dark;
+
 int target_xMax = 0, target_xMin = 0, target_yMax = 0, target_yMin = 0;
+
+ObjectPtr lifeOb[3];
+
 SoundPtr mapSound;
 TimerPtr mainTimer, checkTimer;
 
@@ -108,7 +115,7 @@ void MaraudersMap_main() {
                 if (pressed && d != Direction::STAY) {
                     if (player->move(d)) {
                         player->locate(mapScene, player->setX(player->X()), player->setY(player->Y()));
-                        dark->locate(mapScene, player->setX(player->X()) - 1360, player->setY(player->Y()) - 730);
+                        dark->locate(mapScene, player->setX(player->X()) - 1810, player->setY(player->Y()) - 970);
                     }
                 }
 
@@ -128,8 +135,8 @@ void MaraudersMap_main() {
 
 
     // dark around
-    dark = Object::create("images/map/dark.png", mapScene, player->setX(player->X()) - 1360, player->setY(player->Y()) - 730);
-    dark->setScale(0.9f);
+    dark = Object::create("images/map/dark.png", mapScene, player->setX(player->X()) - 1810, player->setY(player->Y()) - 970);
+    dark->setScale(1.2f);
 
 
     // trap
@@ -239,7 +246,12 @@ void MaraudersMap_main() {
     slytherin->setScale(0.2f);
 
 
-
+    // life
+    static int lifeCount = 3;
+    for (int i = 0; i < 3; i++) {
+        lifeOb[i] = Object::create("images/quidditch/life.png", mapScene, 1200 - 35 * i, 670);
+        lifeOb[i]->setScale(0.2f);
+    }
 
 
 
@@ -264,8 +276,12 @@ void MaraudersMap_main() {
         for (int i = 0; i < trapMAX; i++) {
 
             if (checkTrapRange(1, i)) {
-                endMapGame("fail", false);
-                end = true;
+                lifeCount--;
+                lifeOb[lifeCount]->hide();
+                if (lifeCount == 0) {
+                    endMapGame("fail", false);
+                    end = true;
+                }
             }
             else if (checkTrapRange(3, i)) {
                 //cout << "Someone's right next to me." << " / trap" << i << endl;
