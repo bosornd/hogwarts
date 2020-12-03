@@ -289,5 +289,3 @@ std::string Trap::footImage(Direction d, bool isFoot1) {
 
 	return " ";
 }
-
-

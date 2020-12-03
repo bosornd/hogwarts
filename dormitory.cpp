@@ -1,6 +1,5 @@
 #include <bangtal>
 #include <iostream>
-#include "main.h"
 
 using namespace bangtal;
 using namespace std;
@@ -31,7 +30,7 @@ ObjectPtr character;
 
 void dormitory_main()
 {
-    
+
 
     // 음악
     sound = Sound::create("sounds/기숙사 배정.mp3");
@@ -63,7 +62,7 @@ void dormitory_main()
         }
     }
 
-    
+
     timer->setOnTimerCallback([&](TimerPtr)->bool {
         int max_idx = 0;
         int max = point[0];
@@ -82,18 +81,19 @@ void dormitory_main()
         character->setScale(3.0f);
 
         result_scene->enter();
+        showMessage("화면을 클릭하여 다음 화면으로 이동하세요.");
         result_Ob->setOnMouseCallback([&, max_idx](ObjectPtr, int, int, MouseAction)->bool {
             //dorm = max_idx;
             sound->stop();
             setHome(max_idx);
-            
+
             return true;
             });
 
         return true;
         });
 
-    
+
     //startGame(scene[0]);
     scene[0]->enter();
 

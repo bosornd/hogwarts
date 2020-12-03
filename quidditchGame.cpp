@@ -39,12 +39,13 @@ const int special_ball_score = 2;
 
 // 캐릭터 선택
 //string ch_list[4] = { "harry", "luna", "malfoy", "newton" };
-string my_ch; 
+string my_ch;
 
 // 점수, 생명
 int score = 0;
 int life = 5;
 int win_point = 15;
+ObjectPtr life_object[5];
 
 ScenePtr main_scene, end_scene;
 SoundPtr quid_sound;
@@ -66,7 +67,7 @@ int Quidditch(const string ch)
 
     // 음악
     quid_sound = Sound::create("sounds/퀴디치.mp3");
-    //quid_sound->play(true);
+    quid_sound->play(true);
 
     // 게임 타이머
     game_timer = Timer::create(60.0f);
@@ -78,6 +79,7 @@ int Quidditch(const string ch)
         quid_timer->stop();
         invincible_timer->stop();
         crush_timer->stop();
+        hideTimer();
         showMessage(" Final Score : " + to_string(score));
         if (score > win_point) result = 1;
         else result = 0;
@@ -93,6 +95,12 @@ int Quidditch(const string ch)
 
     // 조작할 캐릭터
     my = Object::create("images/quidditch/" + ch + "_right.png", main_scene, my_x, my_y);
+
+    // 생명
+    for (int i = 0; i < 5; i++) {
+        life_object[i] = Object::create("images/quidditch/life.png", main_scene, 1100 - 35 * i, 670);
+        life_object[i]->setScale(0.2f);
+    }
 
     // 상대, 공, 생성
     ball = Object::create("images/quidditch/ball0.png", main_scene, ball_x, ball_y);
@@ -155,6 +163,7 @@ int Quidditch(const string ch)
                 (my_y - 70 < enemy_y[i]) && (my_y + 70 > enemy_y[i])) {
                 invincible = true;
                 life--;
+                life_object[life]->hide();
                 cout << "crush! / life : " << life << endl;
                 main_scene->setLight(0.3f);
                 crush_timer->start();

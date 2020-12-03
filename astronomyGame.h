@@ -9,7 +9,7 @@ using namespace std;
 
 int ariesLines[4][2] = { {0,1},{1,2},{2,3},{3,4} };
 int cancerLines[4][2] = { {0,2},{1,2},{2,3},{3,4} };
-int capricornusLines[8][2] = { {1,2}, {2,3}, {3,4},{4,5},{5,6},{5,7},{7,8},{8,0} };
+int capricornusLines[8][2] = { {1,2}, {2,3}, {3,4},{4,5},{5,6},{7,5},{7,8},{8,0} };
 
 vector<int> ariesAdd{ 0 };
 vector<int> cancerAdd{ 0 };
@@ -73,5 +73,3 @@ void Star::checkLines(int x, int y, int ans[][2], int _n) {
 
 
 }
-
-
