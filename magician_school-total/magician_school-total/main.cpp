@@ -20,6 +20,9 @@ SoundPtr main_bgm;
 int dorm;
 bool P_F[gameMax] = { 0, }; // 게임 P/F
 
+ScenePtr empty_scene;
+TimerPtr result_timer;
+
 void setHome(const int d) {
 
 	dorm = d;
@@ -31,11 +34,24 @@ void setHome(const int d) {
 
 void checkStage(int gameNum, bool PF = false) {
 	P_F[gameNum] = PF;
-	if (stage == gameMax) endScene->enter();
-	else {
-		mainScene->enter();
-		main_bgm->play(true);
-	}
+
+	if (PF == true) { auto pass = Object::create("images/pass" + to_string(gameNum) + ".png", empty_scene, 0, -10); pass->setScale(1.1f); }
+	else if (PF == false) {auto fail = Object::create("images/fail" + to_string(gameNum) + ".png", empty_scene, 0, -10); fail->setScale(1.1f); }
+
+	empty_scene->enter();
+	
+	result_timer->start();
+
+	result_timer->setOnTimerCallback([&](TimerPtr)->bool {
+		if (stage == gameMax) endScene->enter();
+		else {
+			mainScene->enter();
+			main_bgm->play(true);
+		}
+
+		result_timer->set(3.0f);
+		return true;
+		});
 }
 
 int main() {
@@ -44,12 +60,14 @@ int main() {
 	setGameOption(GameOption::GAME_OPTION_MESSAGE_BOX_BUTTON, false);
 	setGameOption(GameOption::GAME_OPTION_INVENTORY_BUTTON, false);
 
+	empty_scene = Scene::create("", "images/startScene1.png");
+	result_timer = Timer::create(3.0f);
+
 	stage = 0;
 	string playerName;
 
-
 	// 시작 장면
-	auto startScene = Scene::create("", "images/startScene.jpg");
+	auto startScene = Scene::create("", "images/startScene.png");
 	auto startbutton = Object::create("images/startbutton.png", startScene);
 	main_bgm = Sound::create("sounds/오프닝엔딩.mp3");
 	main_bgm->play(true);
@@ -96,8 +114,8 @@ int main() {
 			if (!gameComplete[i]) {
 				stage++;
 				gameComplete[i] = true;
-				auto tutorial = Scene::create("", "images/back_tutorial" + to_string(i) + ".jpg");
-				auto howtoplay = Object::create("images/tutorial" + to_string(i) + ".jpg", tutorial);
+				auto tutorial = Scene::create("", "images/back_tutorial" + to_string(i) + ".png");
+				auto howtoplay = Object::create("images/tutorial" + to_string(i) + ".png", tutorial, -50, 0);
 				auto button = Object::create("images/startbutton.png", tutorial); // 위치 설정 미완료
 				tutorial->enter();
 				button->setOnMouseCallback([=](ObjectPtr, int, int, MouseAction) -> bool {
@@ -126,7 +144,7 @@ int main() {
 	endScene = Scene::create("", "images/home0.jpg");
 	endScene->setOnEnterCallback([](ScenePtr)->bool {
 		main_bgm->play(true);
-		auto gradePaper = Object::create("images/paper.png", endScene, 400, 0);
+		auto gradePaper = Object::create("images/paper"+to_string(dorm)+".png", endScene, 400, 0);
 		gradePaper->setScale(0.36f);
 
 		static int PFcount = 0;
@@ -140,7 +158,22 @@ int main() {
 			cout << endl << P_F[i];
 		}
 		
+		gradePaper->setOnMouseCallback([=](ObjectPtr, int, int, MouseAction)-> bool {
+			string s = (PFcount >= 3) ? "graduation" : "fail";
+			for (int i = 0; i < gameMax; i++) {
+				grade[i]->hide();
+			}
+			gradePaper->hide();
+			endScene->setImage("images/" + s + ".jpg");
+			endScene->setOnKeyboardCallback([](ScenePtr, int, bool) -> bool {
+				endGame();
+				return true;
+				});
 
+			return true;
+			});
+	
+		/*
 		auto timer = Timer::create(10.0f);
 		timer->setOnTimerCallback([=](TimerPtr)->bool {
 			string s = (PFcount >= 3) ? "graduation" : "fail";
@@ -156,6 +189,7 @@ int main() {
 			return true;
 			});
 		timer->start();
+		*/
 		// 10초 동안 성적 보여주고 자동으로 졸업 장면으로 넘어감. 졸업 장면에서 키보드 클릭 시 게임 종료
 
 		return true;

@@ -33,8 +33,8 @@ SoundPtr astronomy_bgm;
 
 //메인 함수
 void astronomyGame() {
-    astronomy_bgm = Sound::create("sounds/animalGame/천문학.mp3");
-
+    astronomy_bgm = Sound::create("sounds/astronomyGame/천문학.mp3");
+    astronomy_bgm->play(true);
     astronomyOne = Scene::create("", "images/astronomyGame/astronomyScene.png");
     astronomyTwo = Scene::create("", "images/astronomyGame/astronomyScene.png");
     astronomyThree = Scene::create("", "images/astronomyGame/astronomyScene.png");
