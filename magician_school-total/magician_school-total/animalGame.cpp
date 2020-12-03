@@ -13,6 +13,8 @@ ScenePtr animalMain;
 SoundPtr S_card;
 SoundPtr S_success;
 SoundPtr animal_bgm;
+SoundPtr S_right;
+SoundPtr S_wrong;
 ObjectPtr hint;
 ObjectPtr hintBtn;
 int resCheckCard;
@@ -91,7 +93,9 @@ void animalGame() {
 	// 소리
 	S_card = Sound::create("sounds/animalGame/Card.mp3");
 	S_success = Sound::create("sounds/animalGame/Success.mp3");
-	animal_bgm = Sound::create("sounds/animalGame/카드 맞추기.mp3");
+	S_right = Sound::create("sounds/animalGame/Right.mp3");
+	S_wrong = Sound::create("sounds/animalGame/Wrong.mp3");
+	animal_bgm = Sound::create("sounds/animalGame/Background.mp3");
 	animal_bgm->play(true);
 
 
@@ -159,7 +163,7 @@ void animalGame() {
 			int resCheckCard = checkCard(card[clickedObj].getCardNum(), clickedObj);   // | -1: 뒤집기 성공 | -2: 게임 승리! | -3: 첫번째 카드 | -4: 직전에 누른 or 이미 뒤집어진 |  |  나머지 : PREV값			
 
 			if (!(resCheckCard == -4)) {		// 뒤집어진 카드를 고르거나, 전에 고른 카드를 골랐을 경우가 아니면 -> 소리 발생, 카드 뒤집기
-				S_card->play(false);
+				S_card->play();
 				// 카드 뒤집기 - num이 9보다 크면 카드이름 작으면 카드그림
 				string openCardString = clickedObj < 9 ? "images/animalGame/animal" + to_string(card[clickedObj].getCardNum() + 1) + ".png" : "images/animalGame/animal" + to_string(card[clickedObj].getCardNum() + 1) + "_t.png";
 				card[clickedObj].getCard()->setImage(openCardString);
@@ -167,16 +171,17 @@ void animalGame() {
 
 			if (resCheckCard > -1) {										// prev값이 돌아왔을떄
 				showMessage("둘이 다른 그림입니다.");
-				
+				S_wrong->play();
 				timerFlip[i]->start();
 				timerFlip[resCheckCard]->start();
 			}
 			else if (resCheckCard == -1) {
+				S_right->play();
 				showMessage("맞추셨습니다!");
 			}
 			else if (resCheckCard == -2) {
 				showMessage("신비한 마법동물 시험에 합격하셨습니다!");
-				S_success->play(false);
+				S_success->play();
 				timer->stop();
 				checkStage(3, true);
 				hideTimer();
