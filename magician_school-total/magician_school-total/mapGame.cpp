@@ -11,12 +11,20 @@ extern void checkStage(int n, bool pf);
 extern int dorm;
 
 ScenePtr mapScene;
+
 MapObjectPtr player;
+
 TrapPtr trap[trapMAX];
+
 ObjectPtr dark;
+
 int target_xMax = 0, target_xMin = 0, target_yMax = 0, target_yMin = 0;
+
+ObjectPtr lifeOb[3];
+
 SoundPtr mapSound;
-TimerPtr mainTimer, checkTimer;
+TimerPtr mainTimer, checkTimer, crushed_timer;
+bool crushed;
 
 void init() {
 
@@ -85,7 +93,7 @@ void MaraudersMap_main() {
     for (int i = 0; i < 4; i++) {
         key_timer[i] = Timer::create(move_interval);
     }
-    
+
     mapScene->setOnKeyboardCallback([&](ScenePtr scene, int key, bool pressed)->bool {
 
         static bool setCh = false;
@@ -97,7 +105,7 @@ void MaraudersMap_main() {
         if ((pressed == 1) && (key >= 82) && (key <= 85)) {
             key_timer[key - 82]->start();
             Direction d = Direction::STAY;
-            
+
             key_timer[key - 82]->setOnTimerCallback([=, &d](TimerPtr)->bool {
                 if (key == 82) d = Direction::LEFT;
                 else if (key == 83) d = Direction::RIGHT;
@@ -108,7 +116,7 @@ void MaraudersMap_main() {
                 if (pressed && d != Direction::STAY) {
                     if (player->move(d)) {
                         player->locate(mapScene, player->setX(player->X()), player->setY(player->Y()));
-                        dark->locate(mapScene, player->setX(player->X()) - 1360, player->setY(player->Y()) - 730);
+                        dark->locate(mapScene, player->setX(player->X()) - 1810, player->setY(player->Y()) - 970);
                     }
                 }
 
@@ -128,8 +136,8 @@ void MaraudersMap_main() {
 
 
     // dark around
-    dark = Object::create("images/map/dark.png", mapScene, player->setX(player->X()) - 1360, player->setY(player->Y()) - 730);
-    dark->setScale(0.9f);
+    dark = Object::create("images/map/dark.png", mapScene, player->setX(player->X()) - 1810, player->setY(player->Y()) - 970);
+    dark->setScale(1.2f);
 
 
     // trap
@@ -239,7 +247,12 @@ void MaraudersMap_main() {
     slytherin->setScale(0.2f);
 
 
-
+    // life
+    static int lifeCount = 3;
+    for (int i = 0; i < 3; i++) {
+        lifeOb[i] = Object::create("images/quidditch/life.png", mapScene, 1200 - 35 * i, 670);
+        lifeOb[i]->setScale(0.2f);
+    }
 
 
 
@@ -247,14 +260,15 @@ void MaraudersMap_main() {
     mainTimer = Timer::create(60.0f);
     showTimer(mainTimer);
     mainTimer->setOnTimerCallback([](TimerPtr)->bool {
-        endMapGame("time over", false);
+        endMapGame("지도 게임 실패!", false);
         return false;
         });
 
     mainTimer->start();
 
-
+    crushed = false;
     static bool end = false;
+    crushed_timer = Timer::create(1.0f);
     // check trap & target
     checkTimer = Timer::create(0.1f);
     checkTimer->setOnTimerCallback([&](TimerPtr t)->bool {
@@ -263,9 +277,15 @@ void MaraudersMap_main() {
         bool next = false;
         for (int i = 0; i < trapMAX; i++) {
 
-            if (checkTrapRange(1, i)) {
-                endMapGame("fail", false);
-                end = true;
+            if (checkTrapRange(1, i) && (crushed == false)) {
+                lifeCount--;
+                crushed = true;
+                lifeOb[lifeCount]->hide();
+                crushed_timer->start();
+                if (lifeCount == 0) {
+                    endMapGame("지도 게임 실패!", false);
+                    end = true;
+                }
             }
             else if (checkTrapRange(3, i)) {
                 //cout << "Someone's right next to me." << " / trap" << i << endl;
@@ -287,7 +307,7 @@ void MaraudersMap_main() {
 
         if ((player->X() >= target_xMin && player->X() <= target_xMax
             && player->Y() >= target_yMin && player->Y() <= target_yMax)) {
-            endMapGame("game clear", true);
+            endMapGame("지도 게임 성공!", true);
             end = true;
         }
 
@@ -298,6 +318,14 @@ void MaraudersMap_main() {
 
         return true;
         });
+    
+    crushed_timer->setOnTimerCallback([&](TimerPtr)->bool {
+        crushed = false;
+        crushed_timer->set(1.0f);
+
+        return true;
+        });
+    
     checkTimer->start();
 
     mapScene->enter();

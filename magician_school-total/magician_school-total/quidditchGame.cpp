@@ -39,7 +39,7 @@ const int special_ball_score = 2;
 
 // 캐릭터 선택
 //string ch_list[4] = { "harry", "luna", "malfoy", "newton" };
-string my_ch; 
+string my_ch;
 
 // 점수, 생명
 int score = 0;
@@ -52,6 +52,9 @@ SoundPtr quid_sound;
 TimerPtr game_timer, special_ball_timer, quid_timer, invincible_timer, crush_timer;// , my_timer[4];
 ObjectPtr goalpost, my, ball, special_ball;
 ObjectPtr enemies[num_enemies];
+
+// 소리
+SoundPtr goal_sound, crush_sound, gold_sound;
 
 int Quidditch(const string ch)
 {
@@ -68,6 +71,9 @@ int Quidditch(const string ch)
     // 음악
     quid_sound = Sound::create("sounds/퀴디치.mp3");
     quid_sound->play(true);
+    goal_sound = Sound::create("sounds/quidditch/goal.mp3");
+    crush_sound = Sound::create("sounds/quidditch/crush.mp3");
+    gold_sound = Sound::create("sounds/quidditch/gold.mp3");
 
     // 게임 타이머
     game_timer = Timer::create(60.0f);
@@ -79,9 +85,9 @@ int Quidditch(const string ch)
         quid_timer->stop();
         invincible_timer->stop();
         crush_timer->stop();
-        showMessage(" Final Score : " + to_string(score));
-        if (score > win_point) result = 1;
-        else result = 0;
+        hideTimer();
+        if (score > win_point) { result = 1; showMessage("퀴디치 게임 성공!"); }
+        else { result = 0; showMessage("퀴디치 게임 실패!"); }
         cout << "Game End! / result : " << result << endl;
         checkStage(4, result);
         return true;
@@ -97,7 +103,7 @@ int Quidditch(const string ch)
 
     // 생명
     for (int i = 0; i < 5; i++) {
-        life_object[i] = Object::create("images/quidditch/life.png", main_scene, 1100 - 35 * i, 670);
+        life_object[i] = Object::create("images/quidditch/life.png", main_scene, 1200 - 35 * i, 670);
         life_object[i]->setScale(0.2f);
     }
 
@@ -164,6 +170,7 @@ int Quidditch(const string ch)
                 life--;
                 life_object[life]->hide();
                 cout << "crush! / life : " << life << endl;
+                crush_sound->play(false);
                 main_scene->setLight(0.3f);
                 crush_timer->start();
 
@@ -255,6 +262,8 @@ int Quidditch(const string ch)
                         invincible = true;
                         invincible_timer->start();
 
+                        goal_sound->play(false);
+
                         own_ball = false;
                         ball->show();
                     }
@@ -267,6 +276,8 @@ int Quidditch(const string ch)
 
                         score += special_ball_score;
                         special_ball_visible = false;
+
+                        gold_sound->play(false);
 
                         cout << "Score : " << score << " / get special ball!" << endl;
 

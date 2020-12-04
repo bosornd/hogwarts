@@ -26,9 +26,9 @@ int magicalHerb(const string ch)
     end1 = Sound::create("sounds/herb/end1.mp3");
     end2 = Sound::create("sounds/herb/end2.mp3");
     for (int i = 0; i < 5; i++) {
-        adding[i] = Sound::create("sounds/herb/plus"+to_string(i)+".mp3");
+        adding[i] = Sound::create("sounds/herb/plus" + to_string(i) + ".mp3");
     }
-    
+
 
     auto Student = Object::create("images/" + ch + ".png", magicpotion, 840, 70);
     Student->setScale(2.0f);
@@ -64,7 +64,7 @@ int magicalHerb(const string ch)
         return true;
         });
     herbs[4]->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
-        herbs_count[5] += 1;
+        herbs_count[4] += 1;
         adding[sound_num]->play();
         sound_num = (sound_num + 1) % 5;
         return true;
@@ -184,12 +184,14 @@ int magicalHerb(const string ch)
 
     pass->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
         BGM->stop();
+        showMessage("마법 약초학 게임 성공!");
         checkStage(0, true);
         return 0;
         });
 
     fail->setOnMouseCallback([&](ObjectPtr object, int x, int y, MouseAction)->bool {
         BGM->stop();
+        showMessage("마법 약초학 게임 실패!");
         checkStage(0, false);
         return 0;
         });

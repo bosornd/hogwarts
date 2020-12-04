@@ -1,4 +1,4 @@
-#include <bangtal>
+ï»¿#include <bangtal>
 
 #include <iostream>
 
@@ -27,16 +27,11 @@ SoundPtr S_card;
 SoundPtr S_success;
 
 SoundPtr animal_bgm;
-<<<<<<< HEAD
 
 SoundPtr S_right;
 
 SoundPtr S_wrong;
 
-=======
-SoundPtr S_right;
-SoundPtr S_wrong;
->>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
 ObjectPtr hint;
 
 ObjectPtr hintBtn;
@@ -93,7 +88,7 @@ public:
 
 int goal = 0;
 
-int handedCard = -1;  // handedCard °¡ -1ÀÌ¸é »õ·Î¿î Ä«µå ¹øÈ£ ÀúÀå, ¾Æ´Ï¸é µÑÀ» ºñ±³
+int handedCard = -1;  // handedCard ê°€ -1ì´ë©´ ìƒˆë¡œìš´ ì¹´ë“œ ë²ˆí˜¸ ì €ì¥, ì•„ë‹ˆë©´ ë‘˜ì„ ë¹„êµ
 
 int prevClickedCard;
 
@@ -107,13 +102,13 @@ int checkCard(int cardNum, int clickedCardNum) {
 
 
 
-	for (int i = 0; i < 18; i++) {			// ÀÌ¹Ì µÚÁı¾îÁø Ä«µå¸¦ ´©¸¥ °æ¿ì or Á÷Àü¿¡ ´©¸¥ Ä«µå¸¦ ¶Ç ´©¸¥ °æ¿ì -> -4¹İÈ¯
+	for (int i = 0; i < 18; i++) {			// ì´ë¯¸ ë’¤ì§‘ì–´ì§„ ì¹´ë“œë¥¼ ëˆ„ë¥¸ ê²½ìš° or ì§ì „ì— ëˆ„ë¥¸ ì¹´ë“œë¥¼ ë˜ ëˆ„ë¥¸ ê²½ìš° -> -4ë°˜í™˜
 
 		if (flipedCard[i] == clickedCardNum) {
 
 
 
-			showMessage("ÀÌ¹Ì µÚÁı¾îÁø Ä«µåÀÔ´Ï´Ù.");
+			showMessage("ì´ë¯¸ ë’¤ì§‘ì–´ì§„ ì¹´ë“œì…ë‹ˆë‹¤.");
 
 			return -4;
 
@@ -133,7 +128,7 @@ int checkCard(int cardNum, int clickedCardNum) {
 
 		}
 
-		else if (handedCard == cardNum) {				// °°Àº Ä«µå¸¦ °í¸¥ °æ¿ì
+		else if (handedCard == cardNum) {				// ê°™ì€ ì¹´ë“œë¥¼ ê³ ë¥¸ ê²½ìš°
 
 			handedCard = -1;
 
@@ -145,7 +140,7 @@ int checkCard(int cardNum, int clickedCardNum) {
 
 			goal++;
 
-			return goal == 9 ? -2 : -1;					// ¸ÂÃá°Ô 9°³¸é ½Â¸®¼±¾ğ
+			return goal == 9 ? -2 : -1;					// ë§ì¶˜ê²Œ 9ê°œë©´ ìŠ¹ë¦¬ì„ ì–¸
 
 		}
 
@@ -177,7 +172,7 @@ TimerPtr timerFlip[18];
 
 
 
-//¸ŞÀÎ ÇÔ¼ö
+//ë©”ì¸ í•¨ìˆ˜
 
 void animalGame() {
 
@@ -187,12 +182,11 @@ void animalGame() {
 
 
 
-	// ¼Ò¸®
+	// ì†Œë¦¬
 
 	S_card = Sound::create("sounds/animalGame/Card.mp3");
 
 	S_success = Sound::create("sounds/animalGame/Success.mp3");
-<<<<<<< HEAD
 
 	S_right = Sound::create("sounds/animalGame/Right.mp3");
 
@@ -200,11 +194,6 @@ void animalGame() {
 
 	animal_bgm = Sound::create("sounds/animalGame/Background.mp3");
 
-=======
-	S_right = Sound::create("sounds/animalGame/Right.mp3");
-	S_wrong = Sound::create("sounds/animalGame/Wrong.mp3");
-	animal_bgm = Sound::create("sounds/animalGame/Background.mp3");
->>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
 	animal_bgm->play(true);
 
 
@@ -215,7 +204,7 @@ void animalGame() {
 
 	timer->setOnTimerCallback([&](TimerPtr)->bool {
 
-		showMessage("Ä«µå Ã£±â ½ÇÆĞ!!");
+		showMessage("ì‹ ë¹„í•œ ë™ë¬¼ ì´ë¦„ ì™¸ìš°ê¸° ì‹¤íŒ¨!");
 
 		animal_bgm->stop();
 
@@ -299,7 +288,7 @@ void animalGame() {
 
 		timerFlip[i] = Timer::create(0.8f);
 
-		timerFlip[i]->setOnTimerCallback([=](TimerPtr t)->bool {       //µÚÁı±â À§ÇÑ ½Ã°£, µÎ »çÁøÀ» ´Ù flip ÇÏ¸é ¿À·ù ¹ß»ı.
+		timerFlip[i]->setOnTimerCallback([=](TimerPtr t)->bool {       //ë’¤ì§‘ê¸° ìœ„í•œ ì‹œê°„, ë‘ ì‚¬ì§„ì„ ë‹¤ flip í•˜ë©´ ì˜¤ë¥˜ ë°œìƒ.
 
 			card[i].getCard()->setImage("images/animalGame/animal_back.png");
 
@@ -317,7 +306,7 @@ void animalGame() {
 
 		card[i].getCard()->setOnMouseCallback([=](ObjectPtr object, int x, int y, MouseAction)->bool {
 
-			// clickedObj = Å¬¸¯ µÈ Ä«µåÀÇ ¼ıÀÚ 
+			// clickedObj = í´ë¦­ ëœ ì¹´ë“œì˜ ìˆ«ì 
 
 			for (int j = 0; j < 18; j++) {
 
@@ -331,21 +320,17 @@ void animalGame() {
 
 
 
-			// µÚÁıÀº Ä«µåµé ¿¬»ê
+			// ë’¤ì§‘ì€ ì¹´ë“œë“¤ ì—°ì‚°
 
-			int resCheckCard = checkCard(card[clickedObj].getCardNum(), clickedObj);   // | -1: µÚÁı±â ¼º°ø | -2: °ÔÀÓ ½Â¸®! | -3: Ã¹¹øÂ° Ä«µå | -4: Á÷Àü¿¡ ´©¸¥ or ÀÌ¹Ì µÚÁı¾îÁø |  |  ³ª¸ÓÁö : PREV°ª			
+			int resCheckCard = checkCard(card[clickedObj].getCardNum(), clickedObj);   // | -1: ë’¤ì§‘ê¸° ì„±ê³µ | -2: ê²Œì„ ìŠ¹ë¦¬! | -3: ì²«ë²ˆì§¸ ì¹´ë“œ | -4: ì§ì „ì— ëˆ„ë¥¸ or ì´ë¯¸ ë’¤ì§‘ì–´ì§„ |  |  ë‚˜ë¨¸ì§€ : PREVê°’			
 
 
 
-			if (!(resCheckCard == -4)) {		// µÚÁı¾îÁø Ä«µå¸¦ °í¸£°Å³ª, Àü¿¡ °í¸¥ Ä«µå¸¦ °ñ¶úÀ» °æ¿ì°¡ ¾Æ´Ï¸é -> ¼Ò¸® ¹ß»ı, Ä«µå µÚÁı±â
-<<<<<<< HEAD
+			if (!(resCheckCard == -4)) {		// ë’¤ì§‘ì–´ì§„ ì¹´ë“œë¥¼ ê³ ë¥´ê±°ë‚˜, ì „ì— ê³ ë¥¸ ì¹´ë“œë¥¼ ê³¨ëì„ ê²½ìš°ê°€ ì•„ë‹ˆë©´ -> ì†Œë¦¬ ë°œìƒ, ì¹´ë“œ ë’¤ì§‘ê¸°
 
 				S_card->play();
 
-=======
-				S_card->play();
->>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
-				// Ä«µå µÚÁı±â - numÀÌ 9º¸´Ù Å©¸é Ä«µåÀÌ¸§ ÀÛÀ¸¸é Ä«µå±×¸²
+				// ì¹´ë“œ ë’¤ì§‘ê¸° - numì´ 9ë³´ë‹¤ í¬ë©´ ì¹´ë“œì´ë¦„ ì‘ìœ¼ë©´ ì¹´ë“œê·¸ë¦¼
 
 				string openCardString = clickedObj < 9 ? "images/animalGame/animal" + to_string(card[clickedObj].getCardNum() + 1) + ".png" : "images/animalGame/animal" + to_string(card[clickedObj].getCardNum() + 1) + "_t.png";
 
@@ -355,16 +340,12 @@ void animalGame() {
 
 
 
-			if (resCheckCard > -1) {										// prev°ªÀÌ µ¹¾Æ¿ÔÀ»‹š
+			if (resCheckCard > -1) {										// prevê°’ì´ ëŒì•„ì™”ì„Â‹Âš
 
-				showMessage("µÑÀÌ ´Ù¸¥ ±×¸²ÀÔ´Ï´Ù.");
-<<<<<<< HEAD
+				showMessage("ë‘˜ì´ ë‹¤ë¥¸ ê·¸ë¦¼ì…ë‹ˆë‹¤.");
 
 				S_wrong->play();
 
-=======
-				S_wrong->play();
->>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
 				timerFlip[i]->start();
 
 				timerFlip[resCheckCard]->start();
@@ -372,27 +353,19 @@ void animalGame() {
 			}
 
 			else if (resCheckCard == -1) {
-<<<<<<< HEAD
 
 				S_right->play();
 
-=======
-				S_right->play();
->>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
-				showMessage("¸ÂÃß¼Ì½À´Ï´Ù!");
+				showMessage("ë§ì¶”ì…¨ìŠµë‹ˆë‹¤!");
 
 			}
 
 			else if (resCheckCard == -2) {
 
-				showMessage("½ÅºñÇÑ ¸¶¹ıµ¿¹° ½ÃÇè¿¡ ÇÕ°İÇÏ¼Ì½À´Ï´Ù!");
-<<<<<<< HEAD
+				showMessage("ì‹ ë¹„í•œ ë™ë¬¼ ì´ë¦„ ì™¸ìš°ê¸° ì„±ê³µ!");
 
 				S_success->play();
 
-=======
-				S_success->play();
->>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
 				timer->stop();
 
 				checkStage(2, true);

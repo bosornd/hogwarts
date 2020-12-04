@@ -1,6 +1,5 @@
 #include <bangtal>
 #include <iostream>
-#include "main.h"
 
 using namespace bangtal;
 using namespace std;
@@ -31,7 +30,7 @@ ObjectPtr character;
 
 void dormitory_main()
 {
-    
+
 
     // À½¾Ç
     sound = Sound::create("sounds/±â¼÷»ç ¹èÁ¤.mp3");
@@ -63,7 +62,7 @@ void dormitory_main()
         }
     }
 
-    
+
     timer->setOnTimerCallback([&](TimerPtr)->bool {
         int max_idx = 0;
         int max = point[0];
@@ -87,14 +86,14 @@ void dormitory_main()
             //dorm = max_idx;
             sound->stop();
             setHome(max_idx);
-            
+
             return true;
             });
 
         return true;
         });
 
-    
+
     //startGame(scene[0]);
     scene[0]->enter();
 

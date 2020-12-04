@@ -36,10 +36,10 @@ void checkStage(int gameNum, bool PF = false) {
 	P_F[gameNum] = PF;
 
 	if (PF == true) { auto pass = Object::create("images/pass" + to_string(gameNum) + ".png", empty_scene, 0, -10); pass->setScale(1.1f); }
-	else if (PF == false) {auto fail = Object::create("images/fail" + to_string(gameNum) + ".png", empty_scene, 0, -10); fail->setScale(1.1f); }
+	else if (PF == false) { auto fail = Object::create("images/fail" + to_string(gameNum) + ".png", empty_scene, 0, -10); fail->setScale(1.1f); }
 
 	empty_scene->enter();
-	
+
 	result_timer->start();
 
 	result_timer->setOnTimerCallback([&](TimerPtr)->bool {
@@ -80,17 +80,17 @@ int main() {
 			main_bgm->stop();
 
 			dormitory_main();
-			
+
 			return true;
 			});
-		
+
 		return true;
 		});
-	
+
 
 	// 게임 선택 home화면
 	mainScene = Scene::create(" ", "images/home0.jpg");
-	
+
 
 	// 게임 선택 버튼, 위치 설정 미완료
 	ObjectPtr games[gameMax];
@@ -105,11 +105,11 @@ int main() {
 
 	// 게임 버튼 클릭 시 게임 실행
 	for (int i = 0; i < gameMax; i++) {
-		games[i] ->setOnMouseCallback([=, &playerName, &gameComplete](ObjectPtr, int, int, MouseAction) -> bool {
-			
+		games[i]->setOnMouseCallback([=, &playerName, &gameComplete](ObjectPtr, int, int, MouseAction) -> bool {
+
 			string ch_list[4] = { "harry", "luna", "malfoy", "newton" };
 			playerName = ch_list[dorm];
-			
+
 
 			if (!gameComplete[i]) {
 				stage++;
@@ -132,19 +132,19 @@ int main() {
 
 			}
 			else if (gameComplete[i]) {
-				showMessage("already done");
+				showMessage("이미 플레이한 게임입니다.");
 			}
 			return true;
 			});
 
 	}
-	
+
 
 
 	endScene = Scene::create("", "images/home0.jpg");
 	endScene->setOnEnterCallback([](ScenePtr)->bool {
 		main_bgm->play(true);
-		auto gradePaper = Object::create("images/paper"+to_string(dorm)+".png", endScene, 400, 0);
+		auto gradePaper = Object::create("images/paper" + to_string(dorm) + ".png", endScene, 400, 0);
 		gradePaper->setScale(0.36f);
 
 		static int PFcount = 0;
@@ -152,12 +152,12 @@ int main() {
 		for (int i = 0; i < gameMax; i++) {
 			string s = (P_F[i]) ? "p" : "f";
 			if (P_F[i]) PFcount++;
-			grade[i] = Object::create("images/" + s + ".jpg", endScene, 800, 390 - i*30); // 위치 설정 미완료.
+			grade[i] = Object::create("images/" + s + ".jpg", endScene, 800, 390 - i * 30); // 위치 설정 미완료.
 			grade[i]->setScale(0.8f);
 			if (i >= 3) grade[i]->locate(endScene, 800, 380 - i * 30);
 			cout << endl << P_F[i];
 		}
-		
+
 		gradePaper->setOnMouseCallback([=](ObjectPtr, int, int, MouseAction)-> bool {
 			string s = (PFcount >= 3) ? "graduation" : "fail";
 			for (int i = 0; i < gameMax; i++) {
@@ -172,7 +172,7 @@ int main() {
 
 			return true;
 			});
-	
+
 		/*
 		auto timer = Timer::create(10.0f);
 		timer->setOnTimerCallback([=](TimerPtr)->bool {
@@ -197,10 +197,10 @@ int main() {
 	// 모든 게임을 완료했을 시 성적장면으로 이동
 
 
-	
-	
-	
-		
+
+
+
+
 
 	bangtal::startGame(startScene);
 

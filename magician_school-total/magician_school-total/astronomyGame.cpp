@@ -24,7 +24,7 @@ StarPtr   Capricornus[9];
 
 ObjectPtr AriesLines[4];
 ObjectPtr CancerLines[4];
-ObjectPtr CapricornusLines[8];
+ObjectPtr   CapricornusLines[8];
 
 int astronomyPoint = 0;
 
@@ -34,12 +34,7 @@ SoundPtr astronomy_bgm;
 //메인 함수
 void astronomyGame() {
     astronomy_bgm = Sound::create("sounds/astronomyGame/천문학.mp3");
-<<<<<<< HEAD
     astronomy_bgm->play(true);
-=======
-    astronomy_bgm->play();
-
->>>>>>> ea2b83450ca2505182cd2c74ce866d9eb38a40b0
     astronomyOne = Scene::create("", "images/astronomyGame/astronomyScene.png");
     astronomyTwo = Scene::create("", "images/astronomyGame/astronomyScene.png");
     astronomyThree = Scene::create("", "images/astronomyGame/astronomyScene.png");
@@ -51,20 +46,24 @@ void astronomyGame() {
     auto timer3 = Timer::create(20.0f);
     auto timerShowAns = Timer::create(1.7f);
 
-    timer1->setOnTimerCallback([&](TimerPtr)->bool {
+    timer1->setOnTimerCallback([=](TimerPtr)->bool {
         showMessage("양자리 찾기 실패!");
         enterScene(astronomyTwo->ID());
+        showTimer(timer2);
+        timer2->start();
         return true;
         });
 
-    timer2->setOnTimerCallback([&](TimerPtr)->bool {
-        showMessage("게자리 찾기 실패!!");
+    timer2->setOnTimerCallback([=](TimerPtr)->bool {
+        showMessage("게자리 찾기 실패!");
         enterScene(astronomyThree->ID());
+        showTimer(timer3);
+        timer3->start();
         return true;
         });
 
-    timer3->setOnTimerCallback([&](TimerPtr)->bool {
-        showMessage("염소자리 찾기 실패!!");
+    timer3->setOnTimerCallback([=](TimerPtr)->bool {
+        showMessage("염소자리 찾기 실패!");
 
         astronomy_bgm->stop();
         astronomyPoint > 2 ? checkStage(1, true) : checkStage(1, false);
@@ -99,7 +98,7 @@ void astronomyGame() {
             }
 
             if (Ans.size() == 4) {
-                timerShowAns->setOnTimerCallback([&](TimerPtr t)->bool {       //뒤집기 위한 시간, 두 사진을 다 flip 하면 오류 발생.
+                timerShowAns->setOnTimerCallback([&](TimerPtr t)->bool {      
                     enterScene(astronomyTwo->ID());
                     showTimer(timer2);
                     t->set(1.7f);
@@ -111,6 +110,7 @@ void astronomyGame() {
                 Success->play(false);
                 timer1->stop();
                 timerShowAns->start();
+                timer2->start();
             }
             return true;
             });
@@ -125,15 +125,15 @@ void astronomyGame() {
         string img = "images/astronomyGame/cancerS" + to_string(i + 1) + ".png";
         Cancer[i] = Star::create(cancerLocation[i][0], cancerLocation[i][1], i, astronomyTwo, img);
         Cancer[i]->setOnMouseCallback([=](ObjectPtr object, int x, int y, MouseAction action)->bool {
-            timer2->start();
-            showTimer(timer2);
+            //timer2->start();
+            //showTimer(timer2);
             Cancer[i]->clickStar(cancerAdd, cancerLines, 4);
             int size = Ans.size();
             for (int j = 0; j < size; j++) {
                 CancerLines[Ans[j]]->show();
             }
             if (Ans.size() == 4) {
-                timerShowAns->setOnTimerCallback([&](TimerPtr t)->bool {       //뒤집기 위한 시간, 두 사진을 다 flip 하면 오류 발생.
+                timerShowAns->setOnTimerCallback([&](TimerPtr t)->bool {       
                     enterScene(astronomyThree->ID());
                     showTimer(timer3);
                     t->set(1.7f);
@@ -143,6 +143,7 @@ void astronomyGame() {
                 Success->play(false);
                 timer2->stop();
                 timerShowAns->start();
+                timer3->start();
                 astronomyPoint += 1;
             }
             return true;
@@ -158,15 +159,15 @@ void astronomyGame() {
         Capricornus[i] = Star::create(capricornusLocation[i][0], capricornusLocation[i][1], i, astronomyThree, img);
         Capricornus[i]->setOnMouseCallback([=](ObjectPtr object, int x, int y, MouseAction action)->bool {
 
-            timer3->start();
-            showTimer(timer3);
+            //timer3->start();
+            //showTimer(timer3);
             Capricornus[i]->clickStar(capricornusAdd, capricornusLines, 8);
             int size = Ans8.size();
             for (int j = 0; j < size; j++) {
                 CapricornusLines[Ans8[j]]->show();
             }
             if (Ans8.size() == 8) {
-                timerShowAns->setOnTimerCallback([&](TimerPtr t)->bool {       //뒤집기 위한 시간, 두 사진을 다 flip 하면 오류 발생.
+                timerShowAns->setOnTimerCallback([&](TimerPtr t)->bool {       
                     hideTimer();
                     astronomyPoint > 2 ? checkStage(1, true) : checkStage(1, false);
                     return true;
@@ -175,7 +176,8 @@ void astronomyGame() {
                 timer3->stop();
                 astronomyPoint += 1;
                 timerShowAns->start();
-                astronomyPoint > 2 ? showMessage("천문학 게임 성공!") : showMessage("천문학 게임 실패!");
+                astronomy_bgm->stop();
+                astronomyPoint > 2 ? showMessage("별자리 찾기 성공!") : showMessage("별자리 찾기 실패!");
                 hideTimer();
             }
             return true;

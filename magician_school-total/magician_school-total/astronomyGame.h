@@ -73,5 +73,3 @@ void Star::checkLines(int x, int y, int ans[][2], int _n) {
 
 
 }
-
-
