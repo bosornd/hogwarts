@@ -1,0 +1,2 @@
+MagicianSchool_installer/Release/Setup.msi filter=lfs diff=lfs merge=lfs -text
+*.msi filter=lfs diff=lfs merge=lfs -text

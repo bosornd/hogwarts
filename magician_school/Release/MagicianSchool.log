@@ -1,0 +1,24 @@
+﻿  animalGame.cpp
+  astronomyGame.cpp
+  dormitory.cpp
+  MagicalHerb.cpp
+  main.cpp
+  mapGame.cpp
+C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\MaraudersMap.h(153,8): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\MaraudersMap.h(159,8): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\mapGame.cpp(77,32): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+  quidditchGame.cpp
+C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\quidditchGame.cpp(30,28): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+  코드를 생성하고 있습니다.
+  Previous IPDB not found, fall back to full compilation.
+C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\animalGame.cpp(167): warning C4715: 'checkCard': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\MaraudersMap.h(191): warning C4715: 'MapObject::check_move': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\MagicalHerb.cpp(155): warning C4715: '<lambda_77e65d2268fbd00c66125cc16094b221>::operator()': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  All 2385 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+BangtalC++.lib(BangtalC++.obj) : warning LNK4099: 'BangtalC++.pdb' PDB를 'BangtalC++.lib(BangtalC++.obj)' 또는 'C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\Release\BangtalC++.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+BangtalC++.lib(Sound.obj) : warning LNK4099: 'BangtalC++.pdb' PDB를 'BangtalC++.lib(Sound.obj)' 또는 'C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\Release\BangtalC++.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+BangtalC++.lib(Timer.obj) : warning LNK4099: 'BangtalC++.pdb' PDB를 'BangtalC++.lib(Timer.obj)' 또는 'C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\Release\BangtalC++.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+BangtalC++.lib(Scene.obj) : warning LNK4099: 'BangtalC++.pdb' PDB를 'BangtalC++.lib(Scene.obj)' 또는 'C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\Release\BangtalC++.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+BangtalC++.lib(Object.obj) : warning LNK4099: 'BangtalC++.pdb' PDB를 'BangtalC++.lib(Object.obj)' 또는 'C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\Release\BangtalC++.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+  MagicianSchool.vcxproj -> C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\Release\MagicianSchool.exe
