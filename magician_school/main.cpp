@@ -165,7 +165,7 @@ int main() {
 			}
 			gradePaper->hide();
 			endScene->setImage("images/" + s + ".jpg");
-			endScene->setOnKeyboardCallback([](ScenePtr, int, bool) -> bool {
+			endScene->setOnKeyboardCallback([](ScenePtr, KeyCode, bool) -> bool {
 				endGame();
 				return true;
 				});

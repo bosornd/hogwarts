@@ -94,7 +94,16 @@ void MaraudersMap_main() {
         key_timer[i] = Timer::create(move_interval);
     }
 
-    mapScene->setOnKeyboardCallback([&](ScenePtr scene, int key, bool pressed)->bool {
+    mapScene->setOnKeyboardCallback([&](ScenePtr scene, KeyCode code, bool pressed)->bool {
+
+        /* translate new key code to old key value */
+        int key = 0;
+        switch (code) {
+            case KeyCode::KEY_LEFT_ARROW: key = 82; break;
+            case KeyCode::KEY_RIGHT_ARROW: key = 83; break;
+            case KeyCode::KEY_UP_ARROW: key = 84; break;
+            case KeyCode::KEY_DOWN_ARROW: key = 85; break;
+        }
 
         static bool setCh = false;
         if (!setCh) {

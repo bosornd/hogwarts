@@ -233,7 +233,16 @@ int Quidditch(const string ch)
     }
     */
     TimerPtr my_timer[4] = { Timer::create(interval), Timer::create(interval), Timer::create(interval), Timer::create(interval) };
-    main_scene->setOnKeyboardCallback([&](ScenePtr scene, int key, bool pressed)->bool {
+    main_scene->setOnKeyboardCallback([&](ScenePtr scene, KeyCode code, bool pressed)->bool {
+        /* translate new key code to old key value */
+        int key = 0;
+        switch (code) {
+            case KeyCode::KEY_LEFT_ARROW: key = 82; break;
+            case KeyCode::KEY_RIGHT_ARROW: key = 83; break;
+            case KeyCode::KEY_UP_ARROW: key = 84; break;
+            case KeyCode::KEY_DOWN_ARROW: key = 85; break;
+        }
+
         if ((pressed == 1) && (key >= 82) && (key <= 85)) {
             my_timer[key - 82]->start();
             my_timer[key - 82]->setOnTimerCallback([=, &own_ball, &invincible,
