@@ -1,6 +1,0 @@
-C:\Users\손희오\Desktop\MagicianSchool\Debug\MagicianSchool.exe
-C:\Users\손희오\Desktop\MagicianSchool\Debug\MagicianSchool.pdb
-C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\Debug\MagicianSchool.exe
-C:\Users\Kim Doom\Desktop\magician_school-total\magician_school-total\Debug\MagicianSchool.pdb
-C:\Users\Kim Doom\Desktop\github\magician_school\Debug\MagicianSchool.exe
-C:\Users\Kim Doom\Desktop\github\magician_school\Debug\MagicianSchool.pdb
